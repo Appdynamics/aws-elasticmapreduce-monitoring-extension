@@ -1,15 +1,15 @@
-#AWS Billing Monitoring Extension
+#AWS ElasticMapReduce Monitoring Extension
 
 ##Use Case
-Captures Billing statistics from Amazon CloudWatch and displays them in the AppDynamics Metric Browser.
+Captures ElasticMapReduce statistics from Amazon CloudWatch and displays them in the AppDynamics Metric Browser.
 
 **Note : By default, the Machine agent can only send a fixed number of metrics to the controller. This extension potentially reports thousands of metrics, so to change this limit, please follow the instructions mentioned [here](https://docs.appdynamics.com/display/PRO40/Metrics+Limits).** 
 
 ##Installation
 
-1. Run 'mvn clean install' from aws-billing-monitoring-extension
-2. Copy and unzip AWSBilllingMonitor-\<version\>.zip from 'target' directory into \<machine_agent_dir\>/monitors/
-3. Edit config.yaml file in AWSBilllingMonitor/conf and provide the required configuration (see Configuration section)
+1. Run 'mvn clean install' from aws-elasticmapreduce-monitoring-extension
+2. Copy and unzip AWSElasticMapReduceMonitor-\<version\>.zip from 'target' directory into \<machine_agent_dir\>/monitors/
+3. Edit config.yaml file in AWSElasticMapReduceMonitor/conf and provide the required configuration (see Configuration section)
 4. Restart the Machine Agent.
 
 ##Configuration
@@ -23,8 +23,8 @@ Captures Billing statistics from Amazon CloudWatch and displays them in the AppD
 | **accounts** | | Fields under this section can be repeated for multiple accounts config |  |
 | | awsAccessKey | AWS Access Key |  |
 | | awsSecretKey | AWS Secret Key |  |
-| | displayAccountName | Display name used in metric path | "MyAWSBilling" |
-| | regions | Regions where Billing is registered | **Allowed values:**<br/>"ap-southeast-1",<br/>"ap-southeast-2",<br/>"ap-northeast-1",<br/>"eu-central-1",<br/>"eu-west-1",<br/>"us-east-1",<br/>"us-west-1",<br/>"us-west-2",<br/>"sa-east-1" |
+| | displayAccountName | Display name used in metric path | "MyAWSElasticMapReduce" |
+| | regions | Regions where ElasticMapReduce is registered | **Allowed values:**<br/>"ap-southeast-1",<br/>"ap-southeast-2",<br/>"ap-northeast-1",<br/>"eu-central-1",<br/>"eu-west-1",<br/>"us-east-1",<br/>"us-west-1",<br/>"us-west-2",<br/>"sa-east-1" |
 | **credentialsDecryptionConfig** | ----- | ----- | ----- |
 | | enableDecryption | If set to "true", then all aws credentials provided (access key and secret key) will be decrypted - see AWS Credentials Encryption section |  |
 | | decryptionKey | The key used when encypting the credentials |  |
@@ -49,7 +49,7 @@ Captures Billing statistics from Amazon CloudWatch and displays them in the AppD
 | | noOfRegionThreadsPerAccount | The no of threads to process multiple regions per account concurrently | 3 |
 | | noOfMetricThreadsPerRegion | The no of threads to process multiple metrics per region concurrently | 3 |
 | | ----- | ----- | ----- |
-| | metricPrefix | The path prefix for viewing metrics in the metric browser. | "Custom Metrics\|Amazon Billing\|" |
+| | metricPrefix | The path prefix for viewing metrics in the metric browser. | "Custom Metrics\|Amazon ElasticMapReduce\|" |
 
 
 **Below is an example config for monitoring multiple accounts and regions:**
@@ -97,7 +97,7 @@ concurrencyConfig:
   noOfRegionThreadsPerAccount: 3
   noOfMetricThreadsPerRegion: 3
 
-metricPrefix: "Custom Metrics|Amazon Billing|"
+metricPrefix: "Custom Metrics|Amazon ElasticMapReduce|"
 ~~~
 
 ###AWS Credentials Encryption
@@ -118,13 +118,13 @@ To set an encrypted awsAccessKey and awsSecretKey in config.yaml, follow the ste
 3. Set the decryptionKey field in config.yaml with the encryption key used, as well as the resulting encrypted awsAccessKey and awsSecretKey in their respective fields.
 
 ##Metrics
-Typical metric path: **Application Infrastructure Performance|\<Tier\>|Custom Metrics|Amazon Billing|\<Account Name\>|\<Region\>|Service Name|\<Service Name\>|Currency|\<Currency\>** followed by the metrics defined in the link below:
+Typical metric path: **Application Infrastructure Performance|\<Tier\>|Custom Metrics|Amazon ElasticMapReduce|\<Account Name\>|\<Region\>|JobFlow Id|\<JobFlow Id\>** followed by the metrics defined in the link below:
 
-- [Billing Metrics](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/billing-metricscollected.html)
+- [ElasticMapReduce Metrics](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/emr-metricscollected.html)
 
 ##Contributing
 
-Always feel free to fork and contribute any changes directly via [GitHub](https://github.com/Appdynamics/aws-billing-monitoring-extension).
+Always feel free to fork and contribute any changes directly via [GitHub](https://github.com/Appdynamics/aws-elasticmapreduce-monitoring-extension).
 
 ##Community
 
