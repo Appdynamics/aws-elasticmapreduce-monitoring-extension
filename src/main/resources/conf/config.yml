@@ -1,0 +1,101 @@
+accounts:
+  - awsAccessKey: ""
+    awsSecretKey: ""
+    displayAccountName: ""
+    
+    # Regions where elastiCache is registered
+    # Allowed values: ap-southeast-1, ap-southeast-2, ap-northeast-1, eu-central-1, 
+    #                 us-east-1, eu-west-1, us-west-1, us-west-2, sa-east-1
+    #
+    regions: ["us-east-1"]
+    
+credentialsDecryptionConfig:
+    enableDecryption: "false"
+    decryptionKey:
+    
+proxyConfig:
+    host:
+    port:
+    username:
+    password:
+
+regionEndPoints:
+  us-east-1 : monitoring.us-east-1.amazonaws.com
+  us-east-2 : monitoring.us-east-2.amazonaws.com
+  us-west-1 : monitoring.us-west-1.amazonaws.com
+  us-west-2 : monitoring.us-west-2.amazonaws.com
+  ap-northeast-1 : monitoring.ap-northeast-1.amazonaws.com
+  ap-northeast-2: monitoring.ap-northeast-2.amazonaws.com
+  ap-northeast-3 : monitoring.ap-northeast-3.amazonaws.com
+  ap-south-1 : monitoring.ap-south-1.amazonaws.com
+  ap-southeast-1 : monitoring.ap-southeast-1.amazonaws.com
+  ap-southeast-2 : monitoring.ap-southeast-2.amazonaws.com
+  ca-central-1 : monitoring.ca-central-1.amazonaws.com
+  cn-north-1 : monitoring.cn-north-1.amazonaws.com.cn
+  cn-northwest-1 : monitoring.cn-northwest-1.amazonaws.com.cn
+  eu-central-1 : monitoring.eu-central-1.amazonaws.com
+  eu-west-1 : monitoring.eu-west-1.amazonaws.com
+  eu-west-2 : monitoring.eu-west-2.amazonaws.com
+  eu-west-3 : monitoring.eu-west-3.amazonaws.com
+  sa-east-1 : monitoring.sa-east-1.amazonaws.com
+  us-gov-west-1 : monitoring.us-gov-west-1.amazonaws.com
+
+# Global metrics config for all accounts
+metricsConfig:
+
+    # By default, all metrics retrieved from cloudwatch are 'Average' values.	
+    # This option allows you to override the metric type. 
+    #
+    # metricName supports regex
+    # Allowed statTypes are: ave, max, min, sum, samplecount
+    #
+    # Note: Irrespective of the metric type, value will still be reported as
+    # Observed value to the Controller
+    metricTypes:
+      - metricName: ""
+        statType: ""
+
+    excludeMetrics: [ ]
+
+    metricsTimeRange:
+      startTimeInMinsBeforeNow: 5
+      endTimeInMinsBeforeNow: 0
+
+    # 
+    # The max number of retry attempts for failed retryable requests 
+    # (ex: 5xx error responses from a service) or throttling errors
+    #
+    maxErrorRetrySize: 0
+
+concurrencyConfig:
+  noOfAccountThreads: 3
+  noOfRegionThreadsPerAccount: 3
+  noOfMetricThreadsPerRegion: 3
+
+#prefix used to show up metrics in AppDynamics 
+metricPrefix: "Custom Metrics|Amazon ElasticMapReduce|"
+
+
+# If any of the following fields are not set, the values of the specific fields are set from the system properties of the corresponding fields as specified in the comments.
+# If the system properties are not set for the field, then the data is retrieved from machine agent configFile. Please refer to ControllerInfoFactory for more details.
+# Values provided here can be overridden if the same field is configured in either controller-info.xml or system properties.
+controllerInfo:
+  controllerHost: ""  # -Dappdynamics.controller.hostName
+  controllerPort:  # -Dappdynamics.controller.port
+  controllerSslEnabled: false # -Dappdynamics.controller.ssl.enabled
+  enableOrchestration: false # N/A
+  uniqueHostId: "" # -Dappdynamics.agent.uniqueHostId
+  username: "admin" # -Dappdynamics.agent.monitors.controller.username
+  password: "" # -Dappdynamics.agent.monitors.controller.password
+  encryptedPassword: "j+0oxTzUtw2xAdaq4UUq/Q==" # -Dappdynamics.agent.monitors.controller.encryptedPassword
+  accountAccessKey: "" # -Dappdynamics.agent.accountAccessKey
+  account: "" # -Dappdynamics.agent.accountName
+  machinePath: "" # -Dappdynamics.machine.agent.hierarchyPath
+  simEnabled: false # -Dappdynamics.sim.enabled
+  applicationName: "" # -Dappdynamics.agent.applicationName
+  tierName: "" # -Dappdynamics.agent.tierName
+  nodeName: "" # -Dappdynamics.agent.nodeName
+
+
+#Encryption key for your controllerInfo password
+encryptionKey: "abcd"
