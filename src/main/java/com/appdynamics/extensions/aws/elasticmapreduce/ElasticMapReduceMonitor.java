@@ -8,24 +8,30 @@
 
 package com.appdynamics.extensions.aws.elasticmapreduce;
 
-import static com.appdynamics.extensions.aws.Constants.METRIC_PATH_SEPARATOR;
-
 import com.appdynamics.extensions.aws.SingleNamespaceCloudwatchMonitor;
 import com.appdynamics.extensions.aws.collectors.NamespaceMetricStatisticsCollector;
 import com.appdynamics.extensions.aws.config.Configuration;
 import com.appdynamics.extensions.aws.metric.processors.MetricsProcessor;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static com.appdynamics.extensions.aws.Constants.METRIC_PATH_SEPARATOR;
 
 /**
  * @author Satish Muddam
  */
 public class ElasticMapReduceMonitor extends SingleNamespaceCloudwatchMonitor<Configuration> {
 
-    private static final Logger LOGGER = Logger.getLogger("com.singularity.extensions.aws.ElasticMapReduceMonitor");
+    private static final Logger LOGGER = ExtensionsLoggerFactory.getLogger(ElasticMapReduceMonitor.class);
 
     private static final String DEFAULT_METRIC_PREFIX = String.format("%s%s%s%s",
             "Custom Metrics", METRIC_PATH_SEPARATOR, "Amazon ElasticMapReduce", METRIC_PATH_SEPARATOR);
+
+    private static final String MONITOR_NAME = "AWSElasticMapReduceMonitor";
 
     public ElasticMapReduceMonitor() {
         super(Configuration.class);
@@ -38,12 +44,12 @@ public class ElasticMapReduceMonitor extends SingleNamespaceCloudwatchMonitor<Co
             Configuration config) {
         MetricsProcessor metricsProcessor = createMetricsProcessor(config);
 
-        return new NamespaceMetricStatisticsCollector
-                .Builder(config.getAccounts(),
+        return new NamespaceMetricStatisticsCollector.Builder(config.getAccounts(),
                 config.getConcurrencyConfig(),
                 config.getMetricsConfig(),
-                metricsProcessor)
-                .withCredentialsEncryptionConfig(config.getCredentialsDecryptionConfig())
+                metricsProcessor,
+                config.getMetricPrefix())
+                .withCredentialsDecryptionConfig(config.getCredentialsDecryptionConfig())
                 .withProxyConfig(config.getProxyConfig())
                 .build();
     }
@@ -54,14 +60,23 @@ public class ElasticMapReduceMonitor extends SingleNamespaceCloudwatchMonitor<Co
     }
 
     @Override
-    protected String getMetricPrefix(Configuration config) {
-        return StringUtils.isNotBlank(config.getMetricPrefix()) ?
-                config.getMetricPrefix() : DEFAULT_METRIC_PREFIX;
+    protected String getDefaultMetricPrefix() {
+        return  DEFAULT_METRIC_PREFIX;
+    }
+
+    @Override
+    public String getMonitorName() {
+        return MONITOR_NAME;
+    }
+
+    @Override
+    protected List<Map<String, ?>> getServers() {
+        return new ArrayList<Map<String, ?>>();
     }
 
     private MetricsProcessor createMetricsProcessor(Configuration config) {
         return new ElasticMapReduceMetricsProcessor(
-                config.getMetricsConfig().getMetricTypes(),
-                config.getMetricsConfig().getExcludeMetrics());
+                config.getMetricsConfig().getIncludeMetrics(),
+                config.getDimensions());
     }
 }
