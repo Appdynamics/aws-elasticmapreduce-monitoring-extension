@@ -147,9 +147,9 @@ Always feel free to fork and contribute any changes directly here on [GitHub](ht
 ## Version
    |Name|Version|
    |--------------------------|------------|
-   |Extension Version         |1.0.3       |
-   |Controller Compatibility  |4.4 or Later|
+   |Extension Version         |1.0.4       |
+   |Controller Compatibility  |4.5 or Later|
    |Machine Agent             |4.5.13+     |
-   |Last Update               |05/13/2020  |
+   |Last Update               |01/02/2021  |
 
 List of changes to this extension can be found [here](https://github.com/Appdynamics/aws-elasticmapreduce-monitoring-extension/blob/master/CHANGELOG.md)
